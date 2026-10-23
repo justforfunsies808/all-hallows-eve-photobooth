@@ -152,7 +152,7 @@ export default function App() {
     <main className="app">
       <header className="top">
         <span className="brand">✦ ALL HALLOWS’ EVE ✦</span>
-        <span>HAUNTED PORTRAITS · OCTOBER 31, 2026</span>
+        <span>HAUNTED PORTRAITS · OCTOBER 24, 2026</span>
       </header>
 
       <section className="stage">
