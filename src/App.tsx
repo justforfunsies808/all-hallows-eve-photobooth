@@ -182,6 +182,7 @@ export default function App() {
               </p>
             )}
 
+            <p className="galleryInvitation"><a href="/gallery">✦ VIEW THE HAUNTED ARCHIVES ✦</a></p>
             <div className="admin">
               <details>
                 <summary>Admin settings</summary>

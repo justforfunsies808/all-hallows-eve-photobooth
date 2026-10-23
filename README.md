@@ -1,6 +1,6 @@
 # After Dark — Halloween Photo Booth
 
-A four-shot black-and-white vintage photobooth web app designed for an older 9.7-inch iPad Pro. Each finished strip is uploaded immediately to a **private** Supabase Storage bucket. There is **no QR code or public gallery**.
+A four-shot black-and-white vintage photobooth web app designed for an older 9.7-inch iPad Pro. Each finished strip is uploaded immediately to a **private** Supabase Storage bucket. The app also includes a **password-protected shared guest gallery** at `/gallery`. The Supabase bucket stays private.
 
 ## 1. Run locally
 
@@ -47,7 +47,7 @@ The server-side function uses the service role key. Never place it in code commi
 
 ## Customization
 
-- Customize title/footer in `src/strip.ts` (currently "HALLOWEEN 2026").
+- Customize title/footer in `src/strip.ts` (currently "ALL HALLOWS’ EVE").
 - Customize camera count, crop, style and output JPEG quality in `src/App.tsx` and `src/strip.ts`.
 - Customize interface in `src/styles.css`.
 
@@ -65,3 +65,15 @@ The server-side function uses the service role key. Never place it in code commi
 ## Important boundary
 
 Only take and store guests' photos with their consent. Tell guests they'll be uploaded privately and how long you plan to keep them.
+
+## 5. Shared guest gallery
+
+1. Add one more Vercel **Production** environment variable: `GALLERY_ACCESS_KEY`, with a **different** strong passphrase from `BOOTH_UPLOAD_KEY`. Redeploy after saving it.
+2. Keep the Supabase `photo-strips` bucket **private**. The new endpoints `api/gallery.js` and `api/photo.js` use the server-side service-role key to retrieve images after checking the gallery passphrase.
+3. Share `https://YOUR-VERCEL-URL/gallery` and the gallery passphrase with your guests. They can browse and download the 60 most recent photo strips. Tap Refresh to see new uploads.
+4. The gallery URL by itself does not provide access: the visitor must enter the passphrase. Anyone with the passphrase can view all 60 newest strips, so share it only with invited guests. Change or remove `GALLERY_ACCESS_KEY` after the event to revoke access.
+5. `npm run dev` serves the page but **does not run Vercel APIs**. Test the full gallery on your deployed Vercel URL (or with `vercel dev`).
+
+The gallery loads the full JPEGs, so guests with weak mobile connections might see slower loading. The API uses basic shared-passphrase protection, not individual accounts or rate limiting. The passphrase is saved in sessionStorage until the tab is closed or the guest locks the gallery.
+
+**Date displayed throughout app:** October 24, 2026.
