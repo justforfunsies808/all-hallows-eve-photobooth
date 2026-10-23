@@ -5,13 +5,18 @@ export async function createStrip(shots: string[]): Promise<Blob> {
   }
 
   // Classic vintage photobooth dimensions
-  const width = 680;
-  const margin = 24;
+  const width = 780;
+  const margin = 34;
   const gap = 10;
   const photoWidth = width - margin * 2;
-  const photoHeight = 760;
+  const photoHeight = 900;
   const footerHeight = 275;
-  const height = margin * 2 + photoHeight * 4 + gap * 3 + footerHeight;
+
+  const height =
+    margin * 2 +
+    photoHeight * 4 +
+    gap * 3 +
+    footerHeight;
 
   const canvas = document.createElement('canvas');
   canvas.width = width;
@@ -20,22 +25,49 @@ export async function createStrip(shots: string[]): Promise<Blob> {
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('Canvas unavailable');
 
-  // Classic black photobooth strip background
-  ctx.fillStyle = '#171717';
+  // Vintage black strip
+  ctx.fillStyle = '#171515';
   ctx.fillRect(0, 0, width, height);
 
+  // Film settings
+  const contrast = 1.3;
+  const warmth = 0.12;
+  const grainAmount = 9;
+
+  function clamp(value: number): number {
+    return Math.max(0, Math.min(255, value));
+  }
+
+  // Smooth film-style S-curve with soft highlights
+  function filmCurve(value: number): number {
+    const normalized = value / 255;
+
+    const curved =
+      normalized * normalized *
+      (3 - 2 * normalized);
+
+    const blended =
+      normalized * 0.45 + curved * 0.55;
+
+    return clamp(
+      (blended * 255 - 128) * contrast + 132
+    );
+  }
+
   for (let i = 0; i < shots.length; i++) {
-    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-      const image = new Image();
-      image.onload = () => resolve(image);
-      image.onerror = reject;
-      image.src = shots[i];
-    });
+    const img = await new Promise<HTMLImageElement>(
+      (resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = shots[i];
+      }
+    );
 
     const x = margin;
     const y = margin + i * (photoHeight + gap);
 
-    // Center-crop each photo without stretching it
+    // Center-crop photo into a portrait frame
     const srcAspect = img.width / img.height;
     const destAspect = photoWidth / photoHeight;
 
@@ -58,10 +90,11 @@ export async function createStrip(shots: string[]): Promise<Blob> {
       x, y, photoWidth, photoHeight
     );
 
-    // Safari-compatible black-and-white film processing
+    // Process pixels directly for older Safari compatibility
     const imageData = ctx.getImageData(
       x, y, photoWidth, photoHeight
     );
+
     const pixels = imageData.data;
 
     for (let p = 0; p < pixels.length; p += 4) {
@@ -69,49 +102,56 @@ export async function createStrip(shots: string[]): Promise<Blob> {
       const g = pixels[p + 1];
       const b = pixels[p + 2];
 
-      // Convert to black and white
-      let gray = 0.299 * r + 0.587 * g + 0.114 * b;
+      // Convert to luminance-based monochrome
+      const luminance =
+        0.299 * r +
+        0.587 * g +
+        0.114 * b;
 
-      // Vintage contrast with gently lifted shadows
-      gray = (gray - 128) * 1.22 + 134;
-      gray = Math.max(8, Math.min(250, gray));
+      // Analog-inspired tonal curve
+      const tone = filmCurve(luminance);
 
-      // Fine analog-style film grain
-      const grain = (Math.random() - 0.5) * 13;
-      gray = Math.max(0, Math.min(255, gray + grain));
+      // Subtle shared grain (not colored RGB noise)
+      const grain = (Math.random() - 0.5) * grainAmount;
 
-      pixels[p] = gray;
-      pixels[p + 1] = gray;
-      pixels[p + 2] = gray;
+      const gray = clamp(tone + grain);
+
+      // Slight warm silver-gelatin print tone
+      pixels[p] = clamp(gray + warmth * 16);
+      pixels[p + 1] = clamp(gray + warmth * 6);
+      pixels[p + 2] = clamp(gray - warmth * 12);
     }
 
     ctx.putImageData(imageData, x, y);
 
-    // Subtle darkroom vignette around the edges
+    // Soft vignette around each frame
     const vignette = ctx.createRadialGradient(
       x + photoWidth / 2,
       y + photoHeight / 2,
-      photoWidth * 0.1,
+      photoWidth * 0.12,
       x + photoWidth / 2,
       y + photoHeight / 2,
-      photoWidth * 0.78
+      photoWidth * 0.82
     );
 
     vignette.addColorStop(0, 'rgba(0,0,0,0)');
-    vignette.addColorStop(1, 'rgba(0,0,0,0.22)');
+    vignette.addColorStop(1, 'rgba(0,0,0,0.18)');
 
     ctx.fillStyle = vignette;
     ctx.fillRect(x, y, photoWidth, photoHeight);
   }
 
-  // Footer
-  const footerTop = margin + photoHeight * 4 + gap * 3;
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#f0e9df';
+  // Gothic footer
+  const footerTop =
+    margin + photoHeight * 4 + gap * 3;
 
-  // Thin antique-style separator
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#eee4d7';
+
+  // Antique separator
   ctx.strokeStyle = '#a99b8c';
   ctx.lineWidth = 1;
+
   ctx.beginPath();
   ctx.moveTo(115, footerTop + 37);
   ctx.lineTo(width - 115, footerTop + 37);
@@ -145,12 +185,13 @@ export async function createStrip(shots: string[]): Promise<Blob> {
     footerTop + 221
   );
 
-  // Export the completed photo strip
+  // Export completed strip
   return new Promise((resolve, reject) => {
     canvas.toBlob(
-      blob => blob
-        ? resolve(blob)
-        : reject(new Error('Image export failed')),
+      blob =>
+        blob
+          ? resolve(blob)
+          : reject(new Error('Image export failed')),
       'image/jpeg',
       0.88
     );
