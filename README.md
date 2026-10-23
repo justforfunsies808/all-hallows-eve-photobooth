@@ -68,12 +68,20 @@ Only take and store guests' photos with their consent. Tell guests they'll be up
 
 ## 5. Shared guest gallery
 
-1. Add one more Vercel **Production** environment variable: `GALLERY_ACCESS_KEY`, with a **different** strong passphrase from `BOOTH_UPLOAD_KEY`. Redeploy after saving it.
+1. Add one more Vercel **Production** environment variable: `(not needed — gallery has no password)`, with a **different** strong passphrase from `BOOTH_UPLOAD_KEY`. Redeploy after saving it.
 2. Keep the Supabase `photo-strips` bucket **private**. The new endpoints `api/gallery.js` and `api/photo.js` use the server-side service-role key to retrieve images after checking the gallery passphrase.
 3. Share `https://YOUR-VERCEL-URL/gallery` and the gallery passphrase with your guests. They can browse and download the 60 most recent photo strips. Tap Refresh to see new uploads.
-4. The gallery URL by itself does not provide access: the visitor must enter the passphrase. Anyone with the passphrase can view all 60 newest strips, so share it only with invited guests. Change or remove `GALLERY_ACCESS_KEY` after the event to revoke access.
+4. The gallery URL by itself does not provide access: the visitor must enter the passphrase. Anyone with the passphrase can view all 60 newest strips, so share it only with invited guests. Change or remove `(not needed — gallery has no password)` after the event to revoke access.
 5. `npm run dev` serves the page but **does not run Vercel APIs**. Test the full gallery on your deployed Vercel URL (or with `vercel dev`).
 
 The gallery loads the full JPEGs, so guests with weak mobile connections might see slower loading. The API uses basic shared-passphrase protection, not individual accounts or rate limiting. The passphrase is saved in sessionStorage until the tab is closed or the guest locks the gallery.
 
 **Date displayed throughout app:** October 24, 2026.
+
+
+### Gallery link (404-safe)
+Share `https://YOUR-VERCEL-DOMAIN/#gallery` with guests. The `#gallery` fragment loads through the main app page, avoiding a server-side `/gallery` route. The backend still requires `(not needed — gallery has no password)`.
+
+
+## Open guest gallery (no password)
+Open `https://YOUR-VERCEL-DOMAIN/#gallery`. Guests can view and download the newest 60 uploaded strips without logging in. **Anyone who has or discovers the gallery URL can access the photos**, even though the Supabase bucket remains private. Keep `SUPABASE_SERVICE_ROLE_KEY` only in server-side Vercel environment variables. Remove the unused old `GALLERY_ACCESS_KEY` environment variable if desired.

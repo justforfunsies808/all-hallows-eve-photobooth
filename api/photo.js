@@ -1,11 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
-import { checkGalleryKey } from './_galleryAuth.js';
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'private, no-store');
   if (req.method !== 'GET') { res.setHeader('Allow', 'GET'); return res.status(405).json({ error: 'Method not allowed' }); }
-  if (!process.env.GALLERY_ACCESS_KEY) return res.status(503).json({ error: 'Missing GALLERY_ACCESS_KEY' });
-  if (!checkGalleryKey(req)) return res.status(401).json({ error: 'Incorrect gallery passphrase' });
   const { path } = req.query;
   if (typeof path !== 'string' || !/^strips\/\d{4}-\d{2}-\d{2}\/[a-f0-9-]+\.jpg$/i.test(path))
     return res.status(400).json({ error: 'Invalid photo path' });
