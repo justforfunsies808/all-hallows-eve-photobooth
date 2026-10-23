@@ -1,324 +1,600 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=UnifrakturCook:wght@700&display=swap');
 
-:root{
-  font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;
-  background:#0b0910;
-  color:#eee3d1;
-  font-synthesis:none;
+:root {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  background: #0b0910;
+  color: #eee3d1;
+  font-synthesis: none;
 }
-*{box-sizing:border-box}
-body{margin:0}
-button,input{font:inherit}
-button{cursor:pointer}
-button:disabled{opacity:.5;cursor:not-allowed}
 
-.app{
-  min-height:100vh;
-  min-height:100dvh;
-  display:flex;
-  flex-direction:column;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* MAIN GOTHIC BACKGROUND */
+
+.app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background:
-    radial-gradient(circle at 50% 18%, rgba(120,31,54,.22), transparent 30%),
-    radial-gradient(circle at 50% 40%, rgba(201,154,94,.09), transparent 34%),
-    linear-gradient(180deg,#160d14 0%,#0e0a11 46%,#08070b 100%);
-  position:relative;
-  isolation:isolate;
-  overflow:hidden;
-}
-.app:before{
-  content:'';
-  position:absolute;
-  inset:12px;
-  border:1px solid rgba(176,132,89,.35);
-  box-shadow:0 0 0 1px rgba(40,20,25,.95) inset;
-  pointer-events:none;
-  z-index:-1;
-}
-.app:after{
-  content:'✦';
-  position:absolute;
-  top:68px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:14px;
-  color:#c79a65;
-  text-shadow:0 0 12px rgba(199,154,101,.3);
-  pointer-events:none;
+    radial-gradient(
+      circle at 50% 18%,
+      rgba(120, 31, 54, 0.22),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(201, 154, 94, 0.09),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      #160d14 0%,
+      #0e0a11 46%,
+      #08070b 100%
+    );
+  position: relative;
+  isolation: isolate;
 }
 
-.top,footer{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:24px 36px;
-  letter-spacing:.18em;
-  font-family:'Cinzel',Georgia,serif;
-  font-size:10px;
-  color:#bea58e;
-  text-transform:uppercase;
-}
-.brand{
-  font-weight:700;
-  color:#f0dbc1;
-  font-size:12px;
+.app::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(176, 132, 89, 0.35);
+  pointer-events: none;
+  z-index: -1;
 }
 
-.stage{
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:28px;
-}
-.welcome{
-  text-align:center;
-  width:100%;
-  max-width:760px;
-}
-.ornament{
-  font-size:52px;
-  color:#b98566;
-  line-height:1;
-  margin-bottom:18px;
-  letter-spacing:.16em;
-  text-shadow:0 0 18px rgba(185,133,102,.18);
-}
-.ornament span{
-  font-size:26px;
-  vertical-align:middle;
-  color:#e5be8d;
-}
-.eyebrow{
-  letter-spacing:.32em;
-  font-family:'Cinzel',Georgia,serif;
-  font-size:11px;
-  color:#d0a887;
-  font-weight:600;
-  text-transform:uppercase;
-}
-.welcome h1,.result h2,.message h2{
-  margin:14px 0 18px;
-  line-height:.94;
-  color:#f6ecdd;
-  text-shadow:0 10px 34px rgba(0,0,0,.45);
-}
-.welcome h1{
-  font-family:'UnifrakturCook','Times New Roman',serif;
-  font-size:clamp(64px,9vw,116px);
-  font-weight:700;
-  letter-spacing:.01em;
-}
-.result h2,.message h2{
-  font-family:'UnifrakturCook','Times New Roman',serif;
-  font-size:clamp(46px,6vw,72px);
-  font-weight:700;
-  letter-spacing:.01em;
-}
-.welcome h1 em,.result h2 em{
-  font-style:normal;
-  color:#d6a7ad;
-}
-.subtitle{
-  color:#ddd0c4;
-  font-size:22px;
-  line-height:1.55;
-  margin:0 auto 22px;
-  max-width:520px;
-}
-.hostLine{
-  font-family:'Cinzel',Georgia,serif;
-  letter-spacing:.18em;
-  font-size:11px;
-  line-height:1.9;
-  color:#c7af97;
-  margin:0 auto 34px;
-  text-transform:uppercase;
-}
-.hostLine strong{
-  display:block;
-  margin-top:3px;
-  font-size:13px;
-  color:#f1dec9;
-  font-weight:600;
-  letter-spacing:.16em;
-}
-.primary,.secondary{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  border-radius:0;
-  padding:16px 25px;
-  min-height:56px;
-  text-decoration:none;
-  transition:background .15s,color .15s,border-color .15s,transform .1s,box-shadow .15s;
-  font-family:'Cinzel',Georgia,serif;
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-}
-.primary{
-  background:linear-gradient(180deg,#d2b08f 0%,#b98a66 100%);
-  color:#190f13;
-  border:1px solid #d0a67f;
-  box-shadow:0 12px 34px rgba(0,0,0,.38),0 0 0 1px rgba(255,236,218,.08) inset;
-}
-.primary:hover{background:linear-gradient(180deg,#dfc0a2 0%,#c49068 100%)}
-.secondary{
-  background:rgba(27,17,24,.54);
-  color:#edd6c0;
-  border:1px solid #7e5b53;
-  box-shadow:0 0 0 1px rgba(255,235,215,.04) inset;
-}
-.secondary:hover{background:#34202c;border-color:#a87965}
-.primary:active,.secondary:active{transform:scale(.99)}
-
-.admin{margin-top:40px;color:#b9aba0;text-align:left}
-.admin details{margin:auto;max-width:370px}
-.admin summary{
-  font:600 12px 'Cinzel',Georgia,serif;
-  cursor:pointer;
-  text-align:center;
-  text-transform:uppercase;
-  letter-spacing:.15em;
-}
-.admin label{
-  display:block;
-  font:600 12px 'Cinzel',Georgia,serif;
-  margin-top:14px;
-  margin-bottom:6px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-}
-.admin input{
-  width:100%;
-  border:1px solid #705558;
-  background:#1d141b;
-  color:#fff4ea;
-  padding:12px;
-  border-radius:2px;
-}
-.admin button{width:100%;margin-top:9px;font-size:11px;padding:9px}
-.tiny{
-  font:15px/1.55 'Cormorant Garamond',Georgia,serif;
-  color:#c2b2aa;
+.app::after {
+  content: '✦';
+  position: absolute;
+  top: 68px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: #c79a65;
+  pointer-events: none;
 }
 
-.cameraScreen{width:min(100%,760px);text-align:center}
-.cameraTop{display:flex;justify-content:space-between;gap:20px}
-.cameraFrame{
-  height:min(54vh,500px);
-  background:#050505;
-  position:relative;
-  overflow:hidden;
-  border:8px solid #ded1c2;
-  outline:1px solid #a97b65;
-  outline-offset:5px;
-  box-shadow:0 20px 65px rgba(0,0,0,.62);
-}
-.cameraFrame:before{
-  content:'';
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:radial-gradient(circle at center, transparent 48%, rgba(0,0,0,.18) 100%);
-  z-index:1;
-}
-.cameraFrame video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
-.countdown{
-  position:absolute;
-  inset:0;
-  display:grid;
-  place-items:center;
-  background:rgba(0,0,0,.46);
-  font:normal 155px 'UnifrakturCook',serif;
-  color:#f8e5d1;
-  text-shadow:0 2px 40px rgba(0,0,0,.92);
-  z-index:2;
-}
-.cameraHint{
-  letter-spacing:.22em;
-  font:600 11px 'Cinzel',Georgia,serif;
-  color:#d2a28b;
-  margin:24px 0;
-  text-transform:uppercase;
-}
-.actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
-.message{text-align:center}
-.message p{color:#cfb6ab;font-size:20px}
-.loader{
-  border:5px solid #49303f;
-  border-top-color:#e6c09f;
-  width:56px;height:56px;border-radius:50%;
-  animation:spin 1s linear infinite;margin:0 auto
-}
-@keyframes spin{to{transform:rotate(360deg)}}
+/* HEADER AND FOOTER */
 
-.result{width:min(100%,860px);display:flex;align-items:center;justify-content:center;gap:42px}
-.resultText{flex:1;min-width:0}
-.stripPreview{width:min(30vw,230px);max-height:68vh;object-fit:contain;box-shadow:6px 13px 40px rgba(0,0,0,.7)}
-.status{
-  display:flex;align-items:center;gap:8px;
-  color:#dbc5b6;
-  font-family:'Cinzel',Georgia,serif;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  font-size:12px;
-}
-.status.saved{color:#d3ebaf}
-.error{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  color:#ffb0a6;
-  font:14px/1.5 'Cinzel',Georgia,serif;
-  text-transform:uppercase;
-  max-width:520px;
-  margin:18px auto;
-}
-.download{color:#f0d8c5}
-footer{
-  justify-content:center;
-  gap:17px;
-  text-align:center;
-}
-footer span{color:#c08a73}
-
-@media(max-width:640px){
-  .app:before{inset:8px}
-  .top{padding:20px 18px}
-  .top span:last-child{font-size:8px}
-  .stage{padding:20px}
-  .ornament{font-size:42px}
-  .welcome h1{font-size:clamp(56px,14vw,84px)}
-  .subtitle{font-size:19px}
-  .result{gap:18px;flex-direction:column-reverse}
-  .stripPreview{width:150px;max-height:37vh}
-  .resultText{text-align:center}
-  .result h2,.message h2{font-size:44px}
-  .result .status,.result .error{justify-content:center}
-  .result .actions{gap:8px}
-  .primary,.secondary{min-height:48px;padding:12px 17px}
-  .cameraFrame{height:48vh;border-width:6px}
-  footer{font-size:8px;flex-wrap:wrap}
-  .hostLine strong{font-size:10px}
+.top,
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 36px;
+  letter-spacing: 0.18em;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 10px;
+  color: #bea58e;
+  text-transform: uppercase;
 }
 
-/* Haunted archives gallery */
-.galleryInvitation{margin:24px 0 4px;font:600 12px 'Cinzel',Georgia,serif;letter-spacing:.14em}
-.galleryInvitation a{color:#e3c4a4;text-decoration:underline;text-underline-offset:5px}
-.galleryShell{width:min(1150px,100%);margin:0 auto;padding:14px 24px 64px}
-.galleryHeading{text-align:center;margin:30px auto 28px}
-.galleryHeading h1{font:700 clamp(44px,8vw,84px)/1 'UnifrakturCook',Georgia,serif;color:#f4e5d1;margin:16px 0}
-.galleryHeading p{font:18px 'Cormorant Garamond',Georgia,serif;color:#d4bda9}
-.galleryLock{max-width:490px;margin:25px auto;padding:28px;border:1px solid #7b5b56;background:#160f17;text-align:center}
-.galleryLock label{display:block;font:600 12px 'Cinzel',Georgia,serif;letter-spacing:.12em;margin:8px 0 14px}
-.galleryLock input{display:block;width:100%;margin-bottom:15px;padding:15px;background:#211621;color:#fff;border:1px solid #a17d71;font-size:16px}
-.galleryLock button{width:100%}
-.galleryGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:24px;margin-top:30px}
-.galleryTile{background:#e9e1d6;padding:8px 8px 10px;box-shadow:0 15px 40px #0008;text-align:center}
-.galleryTile img{width:100%;height:auto;aspect-ratio:900/2410;object-fit:contain;display:block;background:#d5c7b8}
-.galleryTile a{display:block;text-decoration:none;margin-top:8px;color:#2b1c22;font:700 11px 'Cinzel',Georgia,serif;letter-spacing:.08em}
-.galleryTile a:focus-visible,.galleryInvitation a:focus-visible{outline:3px solid #dfb78e;outline-offset:4px}
-.galleryNote{font-size:16px;text-align:center;color:#ddc4ad}
-.galleryNav{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin-top:20px}
-@media(max-width:640px){.galleryShell{padding:10px 15px 45px}.galleryGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.galleryTile{padding:6px}.galleryHeading h1{font-size:52px}}
+.brand {
+  font-weight: 700;
+  color: #f0dbc1;
+  font-size: 12px;
+}
+
+footer {
+  justify-content: center;
+  gap: 17px;
+  text-align: center;
+}
+
+footer span {
+  color: #c08a73;
+}
+
+/* PAGE LAYOUT */
+
+.stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+}
+
+.welcome {
+  text-align: center;
+  width: 100%;
+  max-width: 760px;
+}
+
+.ornament {
+  font-size: 52px;
+  color: #b98566;
+  line-height: 1;
+  margin-bottom: 18px;
+  letter-spacing: 0.16em;
+}
+
+.ornament span {
+  font-size: 26px;
+  vertical-align: middle;
+  color: #e5be8d;
+}
+
+.eyebrow {
+  letter-spacing: 0.28em;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 11px;
+  color: #d0a887;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* GOTHIC TYPOGRAPHY */
+
+.welcome h1,
+.result h2,
+.message h2 {
+  margin: 14px 0 18px;
+  line-height: 0.98;
+  color: #f6ecdd;
+  text-shadow: 0 10px 34px rgba(0, 0, 0, 0.45);
+  font-family: 'UnifrakturCook', Georgia, serif;
+  font-weight: 700;
+}
+
+.welcome h1 {
+  font-size: clamp(64px, 9vw, 116px);
+}
+
+.result h2,
+.message h2 {
+  font-size: clamp(46px, 6vw, 72px);
+}
+
+.welcome h1 em,
+.result h2 em {
+  font-style: normal;
+  color: #d6a7ad;
+}
+
+.subtitle {
+  color: #ddd0c4;
+  font-size: 22px;
+  line-height: 1.55;
+  margin: 0 auto 22px;
+  max-width: 520px;
+}
+
+.hostLine {
+  font-family: 'Cinzel', Georgia, serif;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  line-height: 1.9;
+  color: #c7af97;
+  margin: 0 auto 34px;
+  text-transform: uppercase;
+}
+
+.hostLine strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 13px;
+  color: #f1dec9;
+  font-weight: 600;
+}
+
+/* BUTTONS */
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 0;
+  padding: 16px 25px;
+  min-height: 56px;
+  text-decoration: none;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.primary {
+  background: linear-gradient(
+    180deg,
+    #d2b08f,
+    #b98a66
+  );
+  color: #190f13;
+  border: 1px solid #d0a67f;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.38);
+}
+
+.primary:hover {
+  background: #dfc0a2;
+}
+
+.secondary {
+  background: rgba(27, 17, 24, 0.54);
+  color: #edd6c0;
+  border: 1px solid #7e5b53;
+}
+
+.secondary:hover {
+  background: #34202c;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* CAMERA SCREEN */
+
+.cameraScreen {
+  width: min(100%, 760px);
+  text-align: center;
+}
+
+.cameraTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Portrait vintage camera frame */
+
+.cameraFrame {
+  width: min(78vw, 420px);
+  aspect-ratio: 5 / 6;
+  max-height: 53vh;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  background: #050505;
+
+  border: 8px solid #ded1c2;
+  outline: 1px solid #a97b65;
+  outline-offset: 5px;
+
+  box-shadow: 0 20px 65px rgba(0, 0, 0, 0.62);
+}
+
+/* FORCE BLACK-AND-WHITE LIVE CAMERA */
+
+.cameraFrame video,
+.cameraFrame video[autoplay] {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+
+  -webkit-filter: grayscale(1) contrast(1.22) brightness(1.03) !important;
+  filter: grayscale(1) contrast(1.22) brightness(1.03) !important;
+}
+
+/* Vintage vignette */
+
+.cameraFrame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  background: radial-gradient(
+    circle at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.25) 100%
+  );
+}
+
+.cameraFrame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.04);
+}
+
+/* Countdown */
+
+.countdown {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 2;
+
+  font-family: 'UnifrakturCook', Georgia, serif;
+  font-size: clamp(95px, 16vw, 155px);
+  color: #f8e5d1;
+  text-shadow: 0 2px 40px rgba(0, 0, 0, 0.92);
+}
+
+.cameraHint {
+  letter-spacing: 0.22em;
+  font: 600 11px 'Cinzel', Georgia, serif;
+  color: #d2a28b;
+  margin: 24px 0;
+  text-transform: uppercase;
+}
+
+/* PROCESSING SCREEN */
+
+.message {
+  text-align: center;
+}
+
+.message p {
+  color: #cfb6ab;
+  font-size: 20px;
+}
+
+.loader {
+  border: 5px solid #49303f;
+  border-top-color: #e6c09f;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* FINISHED PHOTO STRIP */
+
+.result {
+  width: min(100%, 860px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 42px;
+}
+
+.resultText {
+  flex: 1;
+  min-width: 0;
+}
+
+.stripPreview {
+  width: min(30vw, 230px);
+  max-height: 68vh;
+  object-fit: contain;
+  box-shadow: 6px 13px 40px rgba(0, 0, 0, 0.7);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #dbc5b6;
+  font-family: 'Cinzel', Georgia, serif;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.status.saved {
+  color: #d3ebaf;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #ffb0a6;
+  font: 14px/1.5 'Cinzel', Georgia, serif;
+  max-width: 520px;
+  margin: 18px auto;
+}
+
+.download {
+  color: #f0d8c5;
+}
+
+/* ADMIN SETTINGS */
+
+.admin {
+  margin-top: 40px;
+  color: #b9aba0;
+  text-align: left;
+}
+
+.admin details {
+  margin: auto;
+  max-width: 370px;
+}
+
+.admin summary {
+  font: 600 12px 'Cinzel', Georgia, serif;
+  cursor: pointer;
+  text-align: center;
+}
+
+.admin label {
+  display: block;
+  font: 12px 'Cinzel', Georgia, serif;
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+
+.admin input {
+  width: 100%;
+  border: 1px solid #705558;
+  background: #1d141b;
+  color: #fff4ea;
+  padding: 12px;
+}
+
+.admin button {
+  width: 100%;
+  margin-top: 9px;
+  font-size: 11px;
+}
+
+.tiny {
+  font: 15px/1.55 'Cormorant Garamond', Georgia, serif;
+  color: #c2b2aa;
+}
+
+/* GALLERY LINK COLORS */
+
+a,
+a:visited {
+  color: #d6b08c;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #f0d6b8;
+  text-decoration: underline;
+}
+
+/* Preserve button link appearance */
+
+a.primary,
+a.primary:visited {
+  color: #190f13;
+}
+
+a.secondary,
+a.secondary:visited {
+  color: #edd6c0;
+}
+
+a.primary:hover,
+a.secondary:hover {
+  text-decoration: none;
+}
+
+/* SMALL SCREEN LAYOUT */
+
+@media (max-width: 640px) {
+  .app::before {
+    inset: 8px;
+  }
+
+  .top {
+    padding: 20px 18px;
+  }
+
+  .top span:last-child {
+    font-size: 8px;
+  }
+
+  .stage {
+    padding: 20px;
+  }
+
+  .ornament {
+    font-size: 42px;
+  }
+
+  .welcome h1 {
+    font-size: clamp(56px, 14vw, 84px);
+  }
+
+  .subtitle {
+    font-size: 19px;
+  }
+
+  .cameraFrame {
+    width: min(80vw, 370px);
+    max-height: 49vh;
+    border-width: 6px;
+  }
+
+  .cameraHint {
+    margin: 16px 0;
+  }
+
+  .result {
+    gap: 18px;
+    flex-direction: column-reverse;
+  }
+
+  .stripPreview {
+    width: 150px;
+    max-height: 37vh;
+  }
+
+  .resultText {
+    text-align: center;
+  }
+
+  .result .status,
+  .result .error {
+    justify-content: center;
+  }
+
+  .primary,
+  .secondary {
+    min-height: 48px;
+    padding: 12px 17px;
+  }
+
+  footer {
+    font-size: 8px;
+    flex-wrap: wrap;
+  }
+
+  .hostLine strong {
+    font-size: 10px;
+  }
+}
+
+/* iPAD PORTRAIT OPTIMIZATION */
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .stage {
+    padding: 18px;
+  }
+
+  .cameraFrame {
+    width: min(48vw, 370px);
+    max-height: 50vh;
+  }
+
+  .cameraHint {
+    margin: 16px 0;
+  }
+
+  .cameraScreen .eyebrow {
+    font-size: 10px;
+  }
+}
