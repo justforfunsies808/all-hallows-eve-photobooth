@@ -74,7 +74,7 @@ export async function createStrip(shots: string[]): Promise<Blob> {
   ctx.fillText('A NIGHT OF FRIGHTS', width / 2, footerTop + 42);
 
   ctx.font = 'normal 20px Georgia, serif';
-  ctx.fillText('CURATED BY VIMMIE · MADELINE · KATHERINE', width / 2, footerTop + 78);
+  ctx.fillText('CURATED BY VIMMI · MADELINE · KATHERINE', width / 2, footerTop + 78);
 
   ctx.font = 'normal 18px Georgia, serif';
   ctx.fillText('✦   OCTOBER 24, 2026   ✦', width / 2, footerTop + 115);

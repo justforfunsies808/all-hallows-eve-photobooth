@@ -61,7 +61,7 @@ export default function Gallery() {
       <div className="galleryHeading"><div className="ornament">☾ ✦ ☽</div>
         <p className="eyebrow">THE HAUNTED ARCHIVES</p>
         <h1>All Hallows’ Eve</h1>
-        <p>A Night of Frights, Curated by Vimmie · Madeline · Katherine</p>
+        <p>A Night of Frights, Curated by Vimmi · Madeline · Katherine</p>
         <p>Find your spectral portraits and save a keepsake from the night.</p>
       </div>
       {status === 'loading' && <div className="message"><div className="loader"/><p>Opening the archives...</p></div>}
