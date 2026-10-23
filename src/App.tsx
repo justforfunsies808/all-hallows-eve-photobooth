@@ -290,7 +290,7 @@ export default function App() {
       </section>
 
       <footer>
-        ALL HALLOWS’ EVE <span>✦</span> A NIGHT OF FRIGHTS, CURATED BY VIMMIE · MADELINE · KATHERINE
+        ALL HALLOWS’ EVE <span>✦</span> A NIGHT OF FRIGHTS, CURATED BY VIMMI · MADELINE · KATHERINE
       </footer>
     </main>
   );

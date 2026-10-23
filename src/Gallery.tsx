@@ -77,6 +77,6 @@ export default function Gallery() {
       </>}
       <div className="galleryNav"><a href="/" className="secondary"><ArrowLeft size={16}/> BACK TO PHOTOBOOTH</a></div>
     </div></section>
-    <footer>ALL HALLOWS’ EVE <span>✦</span> VIMMIE · MADELINE · KATHERINE</footer>
+    <footer>ALL HALLOWS’ EVE <span>✦</span> VIMMI · MADELINE · KATHERINE</footer>
   </main>;
 }
