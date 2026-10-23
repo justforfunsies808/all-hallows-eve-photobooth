@@ -170,7 +170,7 @@ export default function App() {
             </p>
             <p className="hostLine">
               A NIGHT OF FRIGHTS, CURATED BY
-              <strong>VIMMIE · MADELINE · KATHERINE</strong>
+              <strong>VIMMI · MADELINE · KATHERINE</strong>
             </p>
             <button className="primary" onClick={openCamera}>
               <Camera size={21} /> ENTER THE BOOTH <ArrowRight size={20} />
@@ -182,7 +182,7 @@ export default function App() {
               </p>
             )}
 
-            <p className="galleryInvitation"><a href="/#gallery">✦ VIEW THE HAUNTED ARCHIVES ✦</a></p>
+            <p className="galleryInvitation"><a href="/gallery">✦ VIEW THE HAUNTED ARCHIVES ✦</a></p>
             <div className="admin">
               <details>
                 <summary>Admin settings</summary>
