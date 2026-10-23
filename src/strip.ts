@@ -1,22 +1,27 @@
-// Four landscape photos become one vertical, vintage monochrome photo strip.
-export async function createStrip(shots: string[]): Promise<Blob> {
-  if (shots.length !== 4) throw new Error('Four photos are required.');
 
-  const width = 900;
-  const margin = 62;
-  const gap = 22;
+export async function createStrip(shots: string[]): Promise<Blob> {
+  if (shots.length !== 4) {
+    throw new Error('Four photos are required.');
+  }
+
+  // Classic vintage photobooth dimensions
+  const width = 680;
+  const margin = 24;
+  const gap = 10;
   const photoWidth = width - margin * 2;
-  const photoHeight = 480;
-  const footerHeight = 300;
+  const photoHeight = 760;
+  const footerHeight = 275;
   const height = margin * 2 + photoHeight * 4 + gap * 3 + footerHeight;
 
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
+
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('Canvas unavailable');
 
-  ctx.fillStyle = '#e7dfd2';
+  // Classic black photobooth strip background
+  ctx.fillStyle = '#171717';
   ctx.fillRect(0, 0, width, height);
 
   for (let i = 0; i < shots.length; i++) {
@@ -29,8 +34,11 @@ export async function createStrip(shots: string[]): Promise<Blob> {
 
     const x = margin;
     const y = margin + i * (photoHeight + gap);
+
+    // Center-crop each photo without stretching it
     const srcAspect = img.width / img.height;
     const destAspect = photoWidth / photoHeight;
+
     let sx = 0;
     let sy = 0;
     let sw = img.width;
@@ -44,48 +52,107 @@ export async function createStrip(shots: string[]): Promise<Blob> {
       sy = (img.height - sh) / 2;
     }
 
-    ctx.save();
-    ctx.filter = 'grayscale(100%) contrast(118%) brightness(97%)';
-    ctx.drawImage(img, sx, sy, sw, sh, x, y, photoWidth, photoHeight);
-    ctx.restore();
+    ctx.drawImage(
+      img,
+      sx, sy, sw, sh,
+      x, y, photoWidth, photoHeight
+    );
 
+    // Safari-compatible black-and-white film processing
+    const imageData = ctx.getImageData(
+      x, y, photoWidth, photoHeight
+    );
+    const pixels = imageData.data;
+
+    for (let p = 0; p < pixels.length; p += 4) {
+      const r = pixels[p];
+      const g = pixels[p + 1];
+      const b = pixels[p + 2];
+
+      // Convert to black and white
+      let gray = 0.299 * r + 0.587 * g + 0.114 * b;
+
+      // Vintage contrast with gently lifted shadows
+      gray = (gray - 128) * 1.22 + 134;
+      gray = Math.max(8, Math.min(250, gray));
+
+      // Fine analog-style film grain
+      const grain = (Math.random() - 0.5) * 13;
+      gray = Math.max(0, Math.min(255, gray + grain));
+
+      pixels[p] = gray;
+      pixels[p + 1] = gray;
+      pixels[p + 2] = gray;
+    }
+
+    ctx.putImageData(imageData, x, y);
+
+    // Subtle darkroom vignette around the edges
     const vignette = ctx.createRadialGradient(
       x + photoWidth / 2,
       y + photoHeight / 2,
-      photoWidth * 0.08,
+      photoWidth * 0.1,
       x + photoWidth / 2,
       y + photoHeight / 2,
-      photoWidth * 0.78,
+      photoWidth * 0.78
     );
+
     vignette.addColorStop(0, 'rgba(0,0,0,0)');
-    vignette.addColorStop(1, 'rgba(0,0,0,0.2)');
+    vignette.addColorStop(1, 'rgba(0,0,0,0.22)');
+
     ctx.fillStyle = vignette;
     ctx.fillRect(x, y, photoWidth, photoHeight);
   }
 
-  const footerTop = margin + photoHeight * 4 + gap * 3 + 70;
+  // Footer
+  const footerTop = margin + photoHeight * 4 + gap * 3;
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#241d1d';
+  ctx.fillStyle = '#f0e9df';
 
-  ctx.font = 'normal 56px "Times New Roman", Georgia, serif';
-  ctx.fillText('ALL HALLOWS’ EVE', width / 2, footerTop);
+  // Thin antique-style separator
+  ctx.strokeStyle = '#a99b8c';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(115, footerTop + 37);
+  ctx.lineTo(width - 115, footerTop + 37);
+  ctx.stroke();
 
-  ctx.font = 'normal 26px Georgia, serif';
-  ctx.fillText('A NIGHT OF FRIGHTS', width / 2, footerTop + 42);
-
-  ctx.font = 'normal 20px Georgia, serif';
-  ctx.fillText('CURATED BY VIMMI · MADELINE · KATHERINE', width / 2, footerTop + 78);
-
-  ctx.font = 'normal 18px Georgia, serif';
-  ctx.fillText('✦   OCTOBER 24, 2026   ✦', width / 2, footerTop + 115);
-
-  const dots = 8000;
-  ctx.fillStyle = 'rgba(0,0,0,0.038)';
-  for (let i = 0; i < dots; i++) {
-    ctx.fillRect(Math.random() * width, Math.random() * height, 1, 1);
-  }
-
-  return new Promise((resolve, reject) =>
-    canvas.toBlob(blob => (blob ? resolve(blob) : reject(new Error('Image export failed'))), 'image/jpeg', 0.88),
+  ctx.font = 'bold 49px Georgia, serif';
+  ctx.fillText(
+    'ALL HALLOWS’ EVE',
+    width / 2,
+    footerTop + 100
   );
+
+  ctx.font = '25px Georgia, serif';
+  ctx.fillText(
+    'A NIGHT OF FRIGHTS',
+    width / 2,
+    footerTop + 145
+  );
+
+  ctx.font = '19px Georgia, serif';
+  ctx.fillText(
+    'CURATED BY VIMMI · MADELINE · KATHERINE',
+    width / 2,
+    footerTop + 184
+  );
+
+  ctx.font = '19px Georgia, serif';
+  ctx.fillText(
+    '✦  OCTOBER 24, 2026  ✦',
+    width / 2,
+    footerTop + 221
+  );
+
+  // Export the completed photo strip
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      blob => blob
+        ? resolve(blob)
+        : reject(new Error('Image export failed')),
+      'image/jpeg',
+      0.88
+    );
+  });
 }
