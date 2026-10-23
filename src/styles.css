@@ -701,3 +701,35 @@ a.secondary:hover {
     font-size: 8px;
   }
 }
+
+
+/* Gallery for tall vertical photostrips */
+.galleryGrid,
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.galleryGrid img,
+.gallery-grid img {
+  width: 100%;
+  height: 280px;
+  object-fit: contain;
+  background: #171515;
+  border: none;
+}
+
+/* Phones */
+@media (max-width: 640px) {
+  .galleryGrid,
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .galleryGrid img,
+  .gallery-grid img {
+    height: 240px;
+  }
+}
