@@ -77,7 +77,7 @@ export async function createStrip(shots: string[]): Promise<Blob> {
   ctx.fillText('CURATED BY VIMMIE · MADELINE · KATHERINE', width / 2, footerTop + 78);
 
   ctx.font = 'normal 18px Georgia, serif';
-  ctx.fillText('✦   OCTOBER 31, 2026   ✦', width / 2, footerTop + 115);
+  ctx.fillText('✦   OCTOBER 24, 2026   ✦', width / 2, footerTop + 115);
 
   const dots = 8000;
   ctx.fillStyle = 'rgba(0,0,0,0.038)';
