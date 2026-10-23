@@ -598,3 +598,106 @@ a.secondary:hover {
     font-size: 10px;
   }
 }
+
+
+/* iPad portrait-specific layout */
+@media (min-width: 641px)
+  and (max-width: 834px)
+  and (orientation: portrait) {
+
+  .app {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .top {
+    padding: 18px 24px;
+    font-size: 9px;
+  }
+
+  .stage {
+    padding: 20px 24px;
+    align-items: center;
+  }
+
+  /* Welcome screen */
+  .welcome {
+    max-width: 650px;
+  }
+
+  .welcome h1 {
+    font-size: 78px;
+    margin: 12px 0;
+  }
+
+  .ornament {
+    font-size: 38px;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 19px;
+    line-height: 1.35;
+    margin-bottom: 15px;
+  }
+
+  .hostLine {
+    margin-bottom: 22px;
+  }
+
+  .admin {
+    margin-top: 20px;
+  }
+
+  /* Camera screen */
+  .cameraScreen {
+    width: 100%;
+    max-width: 650px;
+  }
+
+  .cameraFrame {
+    width: min(66vw, 400px);
+    max-height: 54vh;
+    aspect-ratio: 5 / 6;
+  }
+
+  .cameraTop {
+    max-width: 500px;
+    margin: 0 auto 14px;
+  }
+
+  .cameraHint {
+    margin: 18px 0;
+  }
+
+  /* Finished photo strip screen */
+  .result {
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .stripPreview {
+    width: 125px;
+    max-height: 39vh;
+  }
+
+  .result h2 {
+    font-size: 45px;
+    margin: 8px 0;
+  }
+
+  .result .status,
+  .result .error {
+    justify-content: center;
+  }
+
+  .result .actions {
+    justify-content: center;
+  }
+
+  footer {
+    padding: 15px;
+    font-size: 8px;
+  }
+}
